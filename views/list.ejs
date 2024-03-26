@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>게시글</title>
+        <script>
+            function deletePost(key){
+                let deleteForm = document.querySelector('#deleteForm');
+                let idAndWdate = deleteForm.querySelector('input[name="idAndWdate"]');
+                let userPasswd = deleteForm.querySelector('input[name="userPasswd"]');
+                let keyObj = JSON.parse(key);
+                if(keyObj.is_encrypted){
+                    userPasswd.value = getUserPassword();
+                }
+                idAndWdate.value = key;
+                console.log('iaw at list.ejs: ') //debug
+                console.log(idAndWdate.value) // deubg
+                deleteForm.submit();
+            }
+            
+            function getUserPassword(){
+                let passwd = prompt('비밀번호를 입력하세요.');
+                return passwd;
+            }
+        </script>
+    </head>
+    <body>
+        <h2>게시글 리스트</h2>
+        <table border='1'>
+            <colgroup>
+                <col width='60'><col width='200'><col width='100'><col width='100'>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>글번호</th>
+                    <th>글제목</th>
+                    <th>작성자</th>
+                    <th>삭제</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(i = list.length - 1; i >= 0; i--) { %>
+                <tr>
+                    <td><%=i+1 %></td>
+                    <td><a href="/board/Post/?postID=<%=list[i].ID %>&date=<%=getCurrentDate(list[i].WDATE) %>"><%=list[i].TITLE %></a></td>
+                    <td><%=list[i].WRITER_NAME %></td>
+                    <td><button onclick = "deletePost('<%=JSON.stringify({id: list[i].ID, wdate: getCurrentDate(list[i].WDATE), is_encrypted: list[i].IS_ENCRYPTED, password: list[i].PASSWORD})%>')">삭제하기</button></td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table boader='1'>
+        <form id="deleteForm" action="/board/deletePost" method="post">
+            <input type="hidden" name="idAndWdate">
+            <input type="hidden" name="userPasswd">
+        </form>
+        
+        <button onclick="location.href='/board/write'">글쓰기</button>
+    </body>
+</html>

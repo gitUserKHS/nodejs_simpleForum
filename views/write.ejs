@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>글쓰기</title>
+        <script>
+            function passwordBox(){
+                const parentDiv = document.getElementsByClassName('passwdWrite')[0];
+                const checkbox = document.getElementById('pswd');
+                if(checkbox.checked){
+                    checkbox.value = "true";
+                    let div = document.createElement('div');
+                    div.innerHTML = "비밀번호 입력: <input type='password' name='password'/>";
+                    div.setAttribute('id', 'inputPasswd');
+                    parentDiv.appendChild(div);
+                }else{
+                    checkbox.value = "false";
+                    let div = document.getElementById('inputPasswd');
+                    parentDiv.removeChild(div);
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h2>게시글 작성</h2>
+        <form class="writing" action='/board/writeAfter' method='post'>
+            작성자 : <input type='text' name='id'><br>
+            제목 : <input type='text' name='title'><br>
+            <div>비밀번호 설정: 
+                <input type="checkbox" id="pswd" name="is_encrypted" value="false" onchange="passwordBox()"/>
+                <label for="passwd">허용</label>
+            </div>
+            <div class="passwdWrite">
+
+            </div>
+            내용 : <textarea name='content'></textarea><br>
+            <button type='submit'>글쓰기</button>
+        </form>
+    </body>
+</html>
