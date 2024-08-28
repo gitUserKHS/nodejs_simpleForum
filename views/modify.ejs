@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>수정하기</h2>
+    <form class="writing" action='/board/modify' method='post'>
+        제목 : <input type='text' name='title' value="<%=title%>"><br>
+        내용 : <textarea name='content'><%=content%></textarea><br>
+        <input type="hidden" name="idAndWdate" value="<%=JSON.stringify({id: id, wdate: getCurrentDate(wdate)})%>">
+        <button type='submit'>수정</button>
+    </form>
+</body>
+</html>

@@ -12,9 +12,21 @@
                     userPasswd.value = getUserPassword();
                 }
                 idAndWdate.value = key;
-                console.log('iaw at list.ejs: ') //debug
-                console.log(idAndWdate.value) // deubg
+                console.log('iaw at list.ejs: '); //debug
+                console.log(idAndWdate.value); // deubg
                 deleteForm.submit();
+            }
+
+            function modifyPost(key){
+                const modifyForm = document.querySelector('#modifyForm');
+                const idAndWdate = modifyForm.querySelector('input[name="idAndWdate"]');
+                const userPasswd = modifyForm.querySelector('input[name="userPasswd"]');
+                let keyObj = JSON.parse(key);
+                if(keyObj.is_encrypted){
+                    userPasswd.value = getUserPassword();
+                }
+                idAndWdate.value = key;
+                modifyForm.submit();
             }
             
             function getUserPassword(){
@@ -35,6 +47,7 @@
                     <th>글제목</th>
                     <th>작성자</th>
                     <th>삭제</th>
+                    <th>수정</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,12 +56,18 @@
                     <td><%=i+1 %></td>
                     <td><a href="/board/Post/?postID=<%=list[i].ID %>&date=<%=getCurrentDate(list[i].WDATE) %>"><%=list[i].TITLE %></a></td>
                     <td><%=list[i].WRITER_NAME %></td>
-                    <td><button onclick = "deletePost('<%=JSON.stringify({id: list[i].ID, wdate: getCurrentDate(list[i].WDATE), is_encrypted: list[i].IS_ENCRYPTED, password: list[i].PASSWORD})%>')">삭제하기</button></td>
+                    <td><button onclick = "deletePost('<%=JSON.stringify({id: list[i].ID, wdate: getCurrentDate(list[i].WDATE), is_encrypted: list[i].IS_ENCRYPTED})%>')">삭제하기</button></td>
+                    <td><button onclick = "modifyPost('<%=JSON.stringify({id: list[i].ID, wdate: getCurrentDate(list[i].WDATE), is_encrypted: list[i].IS_ENCRYPTED})%>')">수정하기</button></td>
                 </tr>
                 <% } %>
             </tbody>
         </table boader='1'>
         <form id="deleteForm" action="/board/deletePost" method="post">
+            <input type="hidden" name="idAndWdate">
+            <input type="hidden" name="userPasswd">
+        </form>
+
+        <form id="modifyForm" action="/board/moveToModify" method="post">
             <input type="hidden" name="idAndWdate">
             <input type="hidden" name="userPasswd">
         </form>

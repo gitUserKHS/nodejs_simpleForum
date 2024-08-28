@@ -9,5 +9,7 @@ router.get('/write', boardMiddleWare.writePost);
 router.post('/writeAfter', boardMiddleWare.afterWritePost);
 router.post('/deletePost', boardMiddleWare.deletePost);
 router.get('/Post', boardMiddleWare.displayPost);
+router.post('/moveToModify', boardMiddleWare.moveToModifyPost);
+router.post('/modify', boardMiddleWare.modifyPost);
 
 module.exports = router;
